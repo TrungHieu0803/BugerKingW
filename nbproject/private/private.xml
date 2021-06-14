@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/E:/Web1/BugerKingW/web/admin/customer-manager.jsp</file>
+            <file>file:/E:/Web1/BugerKingW/src/java/model/DAOOrderDetail.java</file>
+            <file>file:/E:/Web1/BugerKingW/src/java/controller/CartControl.java</file>
+            <file>file:/E:/Web1/BugerKingW/web/admin/add-product.jsp</file>
+            <file>file:/E:/Web1/BugerKingW/src/java/entity/Order.java</file>
+            <file>file:/E:/Web1/BugerKingW/web/css/admin.css</file>
+            <file>file:/E:/Web1/BugerKingW/web/admin/product-manager.jsp</file>
+            <file>file:/E:/Web1/BugerKingW/src/java/controller/ProductManager.java</file>
+            <file>file:/E:/Web1/BugerKingW/web/cart.jsp</file>
+            <file>file:/E:/Web1/BugerKingW/src/java/controller/CheckUserName.java</file>
+            <file>file:/E:/Web1/BugerKingW/web/js/main.js</file>
+            <file>file:/E:/Web1/BugerKingW/web/blog.jsp</file>
+            <file>file:/E:/Web1/BugerKingW/src/java/model/DAOProduct.java</file>
+            <file>file:/E:/Web1/BugerKingW/web/components/navbar.jsp</file>
+            <file>file:/E:/Web1/BugerKingW/web/admin/update-product.jsp</file>
+            <file>file:/E:/Web1/BugerKingW/web/index.jsp</file>
+            <file>file:/E:/Web1/BugerKingW/web/admin/template/sidebar.jsp</file>
+            <file>file:/E:/Web1/BugerKingW/web/css/style.css</file>
+            <file>file:/E:/Web1/BugerKingW/src/java/controller/Logout.java</file>
+            <file>file:/E:/Web1/BugerKingW/web/admin/template/content.jsp</file>
+            <file>file:/E:/Web1/BugerKingW/web/admin/template/header.jsp</file>
+            <file>file:/E:/Web1/BugerKingW/web/menu.jsp</file>
+            <file>file:/E:/Web1/BugerKingW/src/java/controller/Page.java</file>
+            <file>file:/E:/Web1/BugerKingW/src/java/model/DAOOrder.java</file>
+            <file>file:/E:/Web1/BugerKingW/web/admin/admin.jsp</file>
+            <file>file:/E:/Web1/BugerKingW/src/java/controller/Login.java</file>
+            <file>file:/E:/Web1/BugerKingW/src/java/entity/OrderDetail.java</file>
+            <file>file:/E:/Web1/BugerKingW/web/admin/template/404error.jsp</file>
+            <file>file:/E:/Web1/BugerKingW/src/java/entity/Product.java</file>
+        </group>
+    </open-files>
+</project-private>
