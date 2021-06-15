@@ -19,17 +19,24 @@ public class DAOOrderDetail {
     PreparedStatement ps = null;
     ResultSet  rs = null;
     
-    public void addOrderDetail(OrderDetail od){
-        String query = "insert into OrderDetil(pid,oid,quantity,total) values(?,?,?,?)";
+    public void addOrderDetail(String pid,int oid,int quantity,double total){
+        String query = "insert into OrderDetail(pid,oid,quantity,total) values(?,?,?,?)";
         try {
             conn = new DBConnect().getConnection();
             ps = conn.prepareStatement(query);
-            ps.setInt(1, od.getPid());
-            ps.setInt(2, od.getOid());
-            ps.setInt(3, od.getQuantity());
-            ps.setDouble(4, od.getTotal());
+            ps.setString(1, pid);
+            ps.setInt(2, oid);
+            ps.setInt(3, quantity);
+            ps.setDouble(4, total);
+            ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+    
+    public static void main(String[] args) {
+        DAOOrderDetail o = new DAOOrderDetail();
+        o.addOrderDetail("B02", 4,10 ,23);
+    }
+        
 }

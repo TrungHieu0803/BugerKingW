@@ -50,7 +50,7 @@ public class Login extends HttpServlet {
                 request.getRequestDispatcher("admin/admin.jsp").forward(request, response);
             } else if (cr.login(username, password)) {
                 cr.changeStatusToOnl(username);
-                Customer account = new Customer(username, password);
+                Customer account = cr.getCustomerByUN(username);
                 session.setAttribute("account", account);
                 request.setAttribute("alert", "block");
                 request.setAttribute("action", "login");

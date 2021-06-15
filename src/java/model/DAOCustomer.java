@@ -113,9 +113,30 @@ public class DAOCustomer {
         } catch (Exception e) {
         }
     }
+    public Customer getCustomerByUN(String username){
+        Customer c = new Customer();
+        String query = "select*from Customer where username = ?";
+        try {
+            conn = new DBConnect().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, username);
+            rs = ps.executeQuery();
+            while(rs.next()){
+                c = new Customer(rs.getInt(1), 
+                                rs.getString(2), 
+                                rs.getString(3), 
+                                rs.getString(4), 
+                                rs.getString(5), 
+                                rs.getString(6), 
+                                rs.getInt(8));
+            }
+        } catch (Exception e) {
+        }
+        return c;
+    }
     public static void main(String[] args) {
         DAOCustomer c = new DAOCustomer();
-        c.changeStatusToOnl("xuhao9xx");
+        System.out.println(c.getCustomerByUN("xuhao9xx"));
     }
     
 }

@@ -59,7 +59,7 @@
                                     <div class="table-responsive">
                                         <table class="table">
                                             <thead>
-                                                <tr style="text-align: center;">
+                                                <tr >
                                                     <th scope="col" class="border-0 bg-light">
                                                         <div class="p-2 px-3 text-uppercase">Product</div>
                                                     </th>
@@ -75,7 +75,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                            <c:forEach items="${list}" var="o">
+                                            <c:forEach items="${order.product}" var="o" >
                                                 <tr>
                                                     <th scope="row">
                                                         <div class="p-2">
@@ -87,14 +87,11 @@
                                                     </th>
                                                     <td class="align-middle"><strong>${o.price}</strong></td>
                                                     <td class="align-middle">
-                                                        <form>
-                                                            <div class="value-button" id="decrease" onclick="decreaseValue(this)" value="Decrease Value"><p>-</p></div>
-                                                            <input type="number" id="number" value="0" />
-                                                            <div class="value-button" id="increase" onclick="increaseValue(this)" value="Increase Value"><p>+</p></div>
-                                                        </form>
+                                                        <a ><button  onclick="reduceAmount('${o.pid}',${o.price})" class="btnSub">-</button></a> <strong id="${o.pid}">${o.amount}</strong>
+                                                        <a ><button onclick="increaseAmount('${o.pid}',${o.price})" class="btnAdd">+</button></a>
                                                     </td>
-                                                    <td class="align-middle"><a href="remove?id=${o.pid}" class="text-dark">
-                                                            <button type="button" class="btn btn-danger">Delete</button>
+                                                    <td class="align-middle"><a  class="text-dark">
+                                                            <button type="button" onclick="removeProduct('${o.pid}', this,${o.price})" class="btn btn-danger">Remove</button>
                                                         </a>
                                                     </td>
                                                 </tr> 
@@ -105,31 +102,54 @@
                                 <!-- End -->
                             </div>
                         </div>
-
-                        <div class="row py-5 p-4 bg-white rounded shadow-sm">
-                            <div class="col-lg-6">
-                                <div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Voucher</div>
-                                <div class="p-4">
-                                    <div class="input-group mb-4 border rounded-pill p-2">
-                                        <input type="text" placeholder="Enter Voucher" aria-describedby="button-addon3" class="form-control border-0">
-                                        <div class="input-group-append border-0">
-                                            <button id="button-addon3" type="button" class="btn btn-dark px-4 rounded-pill"><i class="fa fa-gift mr-2"></i>Use</button>
+                            
+                            <form action="CartControl?service=buy" method="POST" class="form-control">
+                            <div class="row py-5 p-4 bg-white rounded shadow-sm">
+                                <div class="col-lg-6">
+                                    <div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold cart-information">Confirm Information</div>
+                                    <div class="form-group input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"> <i class="fa fa-user"></i> </span>
                                         </div>
+                                        <input name="cname" class="form-control" placeholder="Full name" type="text" value="${sessionScope.account.cname}">
+                                    </div> <!-- form-group// -->
+                                    <div class="form-group input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
+                                        </div>
+                                        <input name="cemail" class="form-control" placeholder="Email address" type="email" value="${sessionScope.account.cEmail}">
+                                    </div> <!-- form-group// -->
+                                    <div class="form-group input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"> <i class="fa fa-phone"></i> </span>
+                                        </div>
+                                        <select class="custom-select" style="max-width: 120px;">
+                                            <option selected="">+971</option>
+                                            <option value="1">+972</option>
+                                            <option value="2">+198</option>
+                                            <option value="3">+701</option>
+                                        </select>
+                                        <input name="cphone" class="form-control" placeholder="Phone number" type="text" value="${sessionScope.account.cphone}">
+                                    </div> <!-- form-group// -->
+                                    <div class="form-group input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"> <i class="fa fa-building"></i> </span>
+                                        </div>
+                                        <input name="caddress" class="form-control" placeholder="Address" type="text" value="${sessionScope.account.cAddress}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Payment</div>
+                                    <div class="p-4">
+                                        <ul class="list-unstyled mb-4">
+                                            <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Total</strong><strong id="totoalPrice">${sessionScope.order.total}</strong></li>
+                                            </li>
+                                        </ul> <button type="submit" class="btn btn-dark rounded-pill py-2 btn-block">Buy</button>  
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-6">
-                                <div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Payment</div>
-                                <div class="p-4">
-                                    <ul class="list-unstyled mb-4">
-                                        <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Total</strong><strong>${total}</strong></li>
+                        </form>
 
-
-                                        </li>
-                                    </ul><a href="order" class="btn btn-dark rounded-pill py-2 btn-block">Buy</a>
-                                </div>
-                            </div>
-                        </div>
 
                     </div>
                 </div>
@@ -139,7 +159,7 @@
 
 
         <!-- Footer Start -->
-        <jsp:include page="components/footer.jsp"></jsp:include>
+        
         <!-- Footer End -->
 
         <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
@@ -153,6 +173,17 @@
         <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
         <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
 
+        <script type="text/javascript">
+                                                                $(window).scroll(function () {
+                                                                    sessionStorage.scrollTop = $(this).scrollTop();
+                                                                });
+
+                                                                $(document).ready(function () {
+                                                                    if (sessionStorage.scrollTop != "undefined") {
+                                                                        $(window).scrollTop(sessionStorage.scrollTop);
+                                                                    }
+                                                                });
+        </script>
         <!-- Contact Javascript File -->
         <script src="mail/jqBootstrapValidation.min.js"></script>
         <script src="mail/contact.js"></script>

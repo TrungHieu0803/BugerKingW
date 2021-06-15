@@ -103,6 +103,9 @@ a:focus {
     left: 0;
     z-index: 1;
 }
+.cart-information{
+    margin-bottom: 45px;
+}
 
 .btn-facebook {
     background-color: #405D9D;
@@ -116,7 +119,7 @@ form {
     width: 300px;
     margin: 0 auto;
     text-align: center;
-    padding-top: 50px;
+    
 }
 
 .value-button {

@@ -29,6 +29,16 @@ public class Product {
         this.cateID = cateID;
         this.amount = amount;
     }
+
+    public Product(String pid, String pname, double price, String image, int amount) {
+        this.pid = pid;
+        this.pname = pname;
+        this.price = price;
+        this.image = image;
+        this.amount = amount;
+    }
+
+    
     
 
     public Product(String pid, String pname, double price, String image, String description, int cateID) {
@@ -120,6 +130,9 @@ public class Product {
 
     public void setAmount(int amount) {
         this.amount = amount;
+    }
+    public double total(){
+        return (double)amount*price;
     }
     
 

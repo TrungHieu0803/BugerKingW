@@ -201,7 +201,7 @@ window.setTimeout(function () {
 function addToCart(pid) {
     var number = parseInt(document.getElementById('itemInCart').innerHTML) + 1;
     document.getElementById('itemInCart').innerHTML = number;
-    console.log(pid);
+    console.log(number);
     jQuery.ajax({
         url: "/BugerKingW/CartControl",
         type: "POST",
@@ -214,34 +214,69 @@ function addToCart(pid) {
     });
 
 }
-//function addToCart(pid){
-//    
-//    jQuery.ajax({
-//        url: "/BugerKingW/CartControl",
-//        type: "POST",
-//        data: {pid: pid,
-//               service:"reduceAmount"},
-//        success: function () {
-//        }, error: function () {
-//        }
-//
-//    });
-//    
-//}
+function reduceAmount(pid,price) {
+    var totalPrice = parseFloat(document.getElementById("totoalPrice").innerHTML);
+    
+    var number = parseInt(document.getElementById(pid).innerHTML);
+    if (number !== 1) {
+        document.getElementById(pid).innerHTML = number - 1;
+        document.getElementById("totoalPrice").innerHTML = totalPrice - parseFloat(price);
+    } else
+        return;
+    var totalNumber = parseInt(document.getElementById('itemInCart').innerHTML);
+    if (totalNumber !== 1) {
+        document.getElementById('itemInCart').innerHTML = totalNumber - 1;
+    }
+    jQuery.ajax({
+        url: "/BugerKingW/CartControl",
+        type: "POST",
+        data: {pid: pid,
+            service: "reduceAmount"},
+        success: function () {
+        }, error: function () {
+        }
 
-function increaseValue() {
-    var value = parseInt(document.getElementById('number').value, 10);
-    value = isNaN(value) ? 0 : value;
-    value++;
-    document.getElementById('number').value = value;
+    });
 }
+function increaseAmount(pid,price) {
+    var totalPrice = parseFloat(document.getElementById("totoalPrice").innerHTML);
+    var totalNumber = parseInt(document.getElementById('itemInCart').innerHTML) + 1;
+    document.getElementById('itemInCart').innerHTML = totalNumber;
+    var number = parseInt(document.getElementById(pid).innerHTML) + 1;
+    document.getElementById(pid).innerHTML = number;
+    document.getElementById("totoalPrice").innerHTML = totalPrice + parseFloat(price);
+    jQuery.ajax({
+        url: "/BugerKingW/CartControl",
+        type: "POST",
+        data: {pid: pid,
+            service: "increaseAmount"},
+        success: function () {
+        }, error: function () {
+        }
 
-function decreaseValue() {
-    var value = parseInt(document.getElementById('number').value, 10);
-    value = isNaN(value) ? 0 : value;
-    value < 1 ? value = 1 : '';
-    value--;
-    document.getElementById('number').value = value;
+    });
+}
+function removeProduct(pid, btn,price) {
+    var r = confirm("Do you want remove this product?");
+    if (r === true) {
+        var totalPrice = parseFloat(document.getElementById("totoalPrice").innerHTML);
+        var number = parseInt(document.getElementById(pid).innerHTML);
+        var totalNumber = parseInt(document.getElementById('itemInCart').innerHTML);
+        document.getElementById('itemInCart').innerHTML=totalNumber-number;
+        document.getElementById("totoalPrice").innerHTML= totalPrice - parseFloat(price)*number;
+        btn.parentElement.parentElement.parentElement.style.display = "none";
+        jQuery.ajax({
+            url: "/BugerKingW/CartControl",
+            type: "POST",
+            data: {pid: pid,
+                service: "removeProduct"},
+            success: function () {
+                console.log("deleted");
+            }, error: function () {
+
+            }
+        });
+    }
 }
 
 

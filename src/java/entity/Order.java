@@ -6,6 +6,7 @@
 package entity;
 
 import java.sql.Date;
+import java.util.ArrayList;
 
 /**
  *
@@ -17,10 +18,28 @@ public class Order {
     String cname,cphone,cAddress;
     double total;
     int status, cid, payid;
+    ArrayList<Product> product;
 
     public Order() {
     }
 
+    public Order(double total, ArrayList<Product> product) {
+        this.total = total;
+        this.product = product;
+    }
+
+    public Order(ArrayList<Product> p) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    public ArrayList<Product> getProduct() {
+        return product;
+    }
+
+    public void setProduct(ArrayList<Product> product) {
+        this.product = product;
+    }
+    
     public Order(int oid, Date date, String cname, String cphone, String cAddress, double total, int status, int cid, int payid) {
         this.oid = oid;
         this.date = date;

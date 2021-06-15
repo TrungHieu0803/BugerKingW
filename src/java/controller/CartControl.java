@@ -5,6 +5,8 @@
  */
 package controller;
 
+import entity.Customer;
+import entity.Order;
 import entity.Product;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -16,6 +18,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import model.DAOOrder;
+import model.DAOOrderDetail;
 import model.DAOProduct;
 
 /**
@@ -40,100 +44,115 @@ public class CartControl extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         DAOProduct dao = new DAOProduct();
         String service = request.getParameter("service");
+        HttpSession session = request.getSession();
+        String pid = request.getParameter("pid");
         try {
-    // add to cart or increase amount of 1 product        
-            if (service.equals("addToCart")) {
-                String pid = request.getParameter("pid");
-                Cookie arr[] = request.getCookies();
-                String txt = "";
-                for (Cookie o : arr) {
-                    if (o.getName().equals("id")) {
-                        txt = txt + o.getValue();
-                        o.setMaxAge(0);
-                        response.addCookie(o);
+            if (service.equals("addToCart")) {                
+                Product productFromDB = dao.getByID(pid);
+                int totalAmount =0;
+                if (session.getAttribute("order") == null) {                  
+                    ArrayList<Product> p = new ArrayList<>();
+                    p.add(new Product(pid, productFromDB.getPname(), productFromDB.getPrice(), productFromDB.getImage(), 1));
+                    Order order = new Order(productFromDB.getPrice(),p);
+                    session.setAttribute("order", order);
+                    session.setAttribute("totalAmount", totalAmount);
+                }else{
+                    Order order = (Order) session.getAttribute("order");
+                    ArrayList<Product> product = order.getProduct();
+                    double total = 0;
+                    boolean inCart = false;
+                    for (Product p : product) {
+                        if(p.getPid().equals(pid)){
+                            p.setAmount(p.getAmount()+1);
+                            inCart = true;
+                        }                      
                     }
-                }
-                if (txt.isEmpty()) {
-                    txt = pid;
-                } else {
-                    txt = txt + "," + pid;
-                }
-                Cookie c = new Cookie("id", txt);
-                c.setMaxAge(60 * 60 * 24);
-                response.addCookie(c);
-            }
-    //reduce amount for 1 product        
-            if (service.equals("reduceAmount")) {
-                String pid = request.getParameter("pid");
-                Cookie arr[] = request.getCookies();
-                String txt = "";
-                for (Cookie o : arr) {
-                    if (o.getName().equals("id")) {
-                        txt = txt + o.getValue();
-                        o.setMaxAge(0);
-                        response.addCookie(o);
+                    if(!inCart){
+                         product.add(new Product(pid, productFromDB.getPname(), productFromDB.getPrice(), 
+                                 productFromDB.getImage(), 1) );                     
                     }
-                }
-                String ids[] = txt.split(",");
-                String txtOutPut = "";
-                int check = 0;
-                for (int i = 0; i < ids.length; i++) {
-                    if (ids[i].equals(pid)) {
-                        check++;
+                    for (Product p : product) {
+                        totalAmount = totalAmount + p.getAmount();
+                        total = total + p.getPrice()*p.getAmount();
                     }
-                    if (check != 1) {
-                        if (txtOutPut.isEmpty()) {
-                            txtOutPut = ids[i];
-                        } else {
-                            txtOutPut = txtOutPut + "," + ids[i];
-                        }
-                    } else {
-                        check++;
-                    }
+                    Order setOrder = new Order(total,product);
+                    session.setAttribute("order", setOrder);
+                    session.setAttribute("totalAmount", totalAmount);
                 }
-                if (!txtOutPut.isEmpty()) {
-                    Cookie c = new Cookie("id", txtOutPut);
-                    c.setMaxAge(60 * 60 * 24);
-                    response.addCookie(c);
-                }
-            }
 
-            if (service.equals("showCart")) {
-                HttpSession session = request.getSession();
-                Cookie arr[] = request.getCookies();
-                ArrayList<Product> list = new ArrayList<>();
-                for (Cookie o : arr) {
-                    if (o.getName().equals("id")) {
-                        String txt[] = o.getValue().split(",");
-                        for (String s : txt) {
-                            list.add(dao.getByID(s));
-                        }
+            }
+            
+            if(service.equals("reduceAmount")){
+                Order order = (Order) session.getAttribute("order");
+                ArrayList<Product> product = order.getProduct();
+                double total = order.getTotal();
+                int totalAmount = (int) session.getAttribute("totalAmount");
+                for (Product p : product) {
+                    if(p.getPid().equals(pid)&&p.getAmount()==1)
+                        break;
+                    if(p.getPid().equals(pid)){
+                        p.setAmount(p.getAmount()-1);
+                        totalAmount = totalAmount - 1;
+                        total = total - p.getPrice();
                     }
                 }
-                for (int i = 0; i < list.size(); i++) {
-                    int count = 1;
-                    for (int j = i + 1; j < list.size(); j++) {
-                        if (list.get(i).getPid().equals(list.get(j).getPid())) {
-                            count++;
-                            list.remove(j);
-                            j--;
-                            list.get(i).setAmount(count);
-                        }
-                    }
-                }
-                int totalAmount=0;
-                double total = 0;
-                for (Product o : list) {
-                    if(o.getAmount()==0){
-                        o.setAmount(1);
-                    }
-                    totalAmount += o.getAmount();
-                    total = total + (double) o.getAmount() * o.getPrice();
-                }
+                Order setOrder = new Order(total,product);
+                session.setAttribute("order", setOrder);
                 session.setAttribute("totalAmount", totalAmount);
-                request.setAttribute("list", list);
-                request.setAttribute("total", total);
-                request.getRequestDispatcher("cart.jsp").forward(request, response);
+            }
+            if(service.equals("increaseAmount")){
+                Order order = (Order) session.getAttribute("order");
+                ArrayList<Product> product = order.getProduct();
+                double total = order.getTotal();
+                int totalAmount = (int) session.getAttribute("totalAmount");
+                for (Product p : product) {
+                    if(p.getPid().equals(pid)){
+                        p.setAmount(p.getAmount()+1);
+                        totalAmount = totalAmount + 1;
+                        total = total + p.getPrice();
+                    }
+                }
+                Order setOrder = new Order(total,product);
+                session.setAttribute("order", setOrder);
+                session.setAttribute("totalAmount", totalAmount);
+            }
+            if(service.equals("removeProduct")){
+                Order order = (Order) session.getAttribute("order");
+                int totalAmount = (int) session.getAttribute("totalAmount");
+                ArrayList<Product> product = order.getProduct();
+                double total = order.getTotal();
+                for(int i  = 0; i < product.size();i++){
+                    if(product.get(i).getPid().equals(pid)){
+                        total = total -(double) product.get(i).getPrice()*product.get(i).getAmount();
+                        totalAmount = totalAmount - product.get(i).getAmount();
+                        product.remove(i);
+                    }
+                }
+                Order setOrder = new Order(total,product);
+                session.setAttribute("order", setOrder);
+                session.setAttribute("totalAmount", totalAmount);
+            }
+            if(service.equals("buy")){
+                DAOOrder dorder = new DAOOrder();
+                DAOOrderDetail od = new DAOOrderDetail();
+                Order order = (Order) session.getAttribute("order");
+     //           int totalAmount = (int) session.getAttribute("totalAmount");
+                double total = order.getTotal();
+                Customer customer = (Customer) session.getAttribute("account");
+                String cname = request.getParameter("cname");
+                String cphone = request.getParameter("cphone");
+                String caddress = request.getParameter("caddress");
+                Order saveToDB = new Order(cname,cphone,caddress,total,customer.getCid(),1);
+                dorder.addOrder(saveToDB);
+                int orderID = dorder.getOrderID(customer.getCid());
+                ArrayList<Product> product = order.getProduct();
+                for (Product p : product) {
+                    od.addOrderDetail(p.getPid(), orderID, p.getAmount(), p.total());
+                }
+                session.removeAttribute("order");
+                session.removeAttribute("totalAmount");
+                response.sendRedirect("index.jsp");
+                
             }
         } catch (Exception e) {
         }

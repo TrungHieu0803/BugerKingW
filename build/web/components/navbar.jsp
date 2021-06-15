@@ -4,6 +4,7 @@
     Author     : Administrator
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div class="navbar navbar-expand-lg bg-light navbar-light">
     <div class="container-fluid">
         <a href="index.html" class="navbar-brand">Burger <span>King</span></a>
@@ -32,8 +33,11 @@
                         <a href="/BugerKingW/logout?service=forCustomer" class="dropdown-item">Logout</a>
                     </div>
                 </div>
-                    <a  href="/BugerKingW/CartControl?service=showCart" class="nav-item nav-link  btn btn-default btn-sm" style="display: ${sessionScope.account==null?"none":"block"}">
-                        <span  id="itemInCart" class=" fa fa-shopping-cart"> ${sessionScope.totalAmount}</span>         
+                    <a  href="../BugerKingW/cart.jsp" class="nav-item nav-link  btn btn-default btn-sm" style="display: ${sessionScope.account==null?"none":"block"}">
+                        <span  id="itemInCart" class=" fa fa-shopping-cart"> 
+                            <c:if test="${sessionScope.totalAmount==null}">0</c:if>
+                            <c:if test="${sessionScope.totalAmount!=null}">${sessionScope.totalAmount}</c:if>
+                        </span>         
                 </a>
             </div>
         </div>
