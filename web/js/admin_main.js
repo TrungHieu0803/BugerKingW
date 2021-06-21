@@ -20,8 +20,15 @@ window.onload = function () {
         });
     }
 };
-    function deleteP() {
-        console.log("123");
+function deleteP() {
+    console.log("123");
+}
+function orderDetail(name, phone, adrress) {
+    document.getElementById("modal-order-detail").style.display = "block";
+    console.log(name + phone + adrress);
+    document.getElementById("customer-name").innerHTML = name;
+    document.getElementById("customer-phone").innerHTML = phone;
+    document.getElementById("customer-adrress").innerHTML = adrress;
 }
 
 

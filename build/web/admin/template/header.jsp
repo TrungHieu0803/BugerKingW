@@ -28,16 +28,16 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="<c:url value='/admin'/>">Admintration</a>
+        <a class="navbar-brand" href="">Administration</a>
       </div>
       <div class="collapse navbar-collapse">
         <ul class="nav navbar-nav navbar-right">
           <li>
-            <a href="<c:url value='/admin/profile' />">
-                <span class="glyphicon glyphicon-user">&nbsp;</span>Xin chào: ${sessionScope.accountAdmin.username}</a>
+            <a href="">
+                <span class="glyphicon glyphicon-user">&nbsp;</span>Hello: ${sessionScope.accountAdmin.username}</a>
           </li>
           <li>
-            <a href="/BugerKingW/logout?service=forAdmin"></span> Đăng xuất</a>
+            <a href="/BugerKingW/logout?service=forAdmin"></span>Logout</a>
           </li>
         </ul>
       </div>

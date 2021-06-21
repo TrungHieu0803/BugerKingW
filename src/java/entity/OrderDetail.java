@@ -10,24 +10,48 @@ package entity;
  * @author Administrator
  */
 public class OrderDetail {
-    int pid,oid,quantity;
-    double total;
+    String pid, pname;
+    int oid,quantity;
+    double price,total;
 
     public OrderDetail() {
     }
 
-    public OrderDetail(int pid, int oid, int quantity, double total) {
+    public OrderDetail(String pname, int quantity, double price, double total) {
+        this.pname = pname;
+        this.quantity = quantity;
+        this.price = price;
+        this.total = total;
+    }
+
+    public OrderDetail(String pid, int oid, int quantity, double total) {
         this.pid = pid;
         this.oid = oid;
         this.quantity = quantity;
         this.total = total;
     }
 
-    public int getPid() {
+    public String getPname() {
+        return pname;
+    }
+
+    public void setPname(String pname) {
+        this.pname = pname;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public String getPid() {
         return pid;
     }
 
-    public void setPid(int pid) {
+    public void setPid(String pid) {
         this.pid = pid;
     }
 
@@ -57,7 +81,11 @@ public class OrderDetail {
 
     @Override
     public String toString() {
-        return "OrderDetail{" + "pid=" + pid + ", oid=" + oid + ", quantity=" + quantity + ", total=" + total + '}';
+        return "OrderDetail{" + "pid=" + pid + ", pname=" + pname + ", oid=" + oid + ", quantity=" + quantity + ", price=" + price + ", total=" + total + '}';
     }
+    
+    
+
+    
     
 }

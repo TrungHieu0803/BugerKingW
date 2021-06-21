@@ -9,6 +9,7 @@ import entity.OrderDetail;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 /**
  *
@@ -33,10 +34,27 @@ public class DAOOrderDetail {
             e.printStackTrace();
         }
     }
+    public ArrayList<OrderDetail> getOdByOid(int oid){
+        ArrayList<OrderDetail> od = new ArrayList<>();
+        String query = "select b.pname,b.price,a.quantity,a.total from OrderDetail as a inner join Product as b on a.pid=b.pid  where oid = ?";
+        try {
+            conn = new DBConnect().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, oid);
+            rs = ps.executeQuery();
+            while(rs.next()){
+                od.add(new OrderDetail(rs.getString(1), rs.getInt(3), rs.getDouble(2), rs.getDouble(4)));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return od;
+    }
     
     public static void main(String[] args) {
         DAOOrderDetail o = new DAOOrderDetail();
-        o.addOrderDetail("B02", 4,10 ,23);
+    //    o.addOrderDetail("B02", 4,10 ,23);
+        System.out.println(o.getOdByOid(8));
     }
         
 }

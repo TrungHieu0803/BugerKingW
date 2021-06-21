@@ -21,8 +21,8 @@
         <ul class="nav navbar-nav side-bar">       
          
           <li class="side-bar tmargin">
-            <a href="<c:url value='/admin/don-hang' />">
-              <span class="glyphicon glyphicon-shopping-cart">&nbsp;</span>Quản lý Đơn hàng</a>
+            <a href="/BugerKingW/OrderManager?service=om">
+              <span class="glyphicon glyphicon-shopping-cart">&nbsp;</span>Order manage</a>
           </li>
         
           <li class="side-bar">

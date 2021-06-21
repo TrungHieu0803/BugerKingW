@@ -5,24 +5,26 @@
  */
 package controller;
 
-import entity.Product;
+import entity.Order;
+import entity.OrderDetail;
 import java.io.IOException;
 import java.io.PrintWriter;
+import static java.lang.System.out;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import model.DAOProduct;
+import model.DAOOrder;
+import model.DAOOrderDetail;
 
 /**
  *
  * @author Administrator
  */
-@WebServlet(name = "Page", urlPatterns = {"/page"})
-public class Page extends HttpServlet {
+@WebServlet(name = "OrderManager", urlPatterns = {"/OrderManager"})
+public class OrderManager extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,30 +38,32 @@ public class Page extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        DAOProduct p = new DAOProduct();
-        String service = request.getParameter("service");        
+        DAOOrder od = new DAOOrder();
+        DAOOrderDetail odetail = new DAOOrderDetail();
+        String service = request.getParameter("service");
         try {
-            if (request.getSession(false)!=null) {
-                request.setAttribute("register", "none");
-                request.setAttribute("login", "none");
-            }
-            
-            if (service.equals("menu")) {
-                ArrayList<Product> pb, ps, pd = new ArrayList<>();
-                pb = p.getAllProductBuger();
-                ps = p.getAllProductSnack();
-                pd = p.getAllProductDrink();
-                request.setAttribute("listPB", pb);
-                request.setAttribute("listPS", ps);
-                request.setAttribute("listPD", pd);
-                request.getRequestDispatcher("menu.jsp").forward(request, response);
-            }else if(service.equals("home")){
-                response.sendRedirect("index.jsp");
+            if (service.equals("om")) {
+                ArrayList<Order> list = new ArrayList<>();
+                list = od.getAllOrder();
+                request.setAttribute("listO", list);
+                request.getRequestDispatcher("admin/order-manager.jsp").forward(request, response);
+            } else if (service.equals("orderDetail")) {
+                int oid = Integer.parseInt(request.getParameter("oid"));
+                ArrayList<OrderDetail> orderDetail = odetail.getOdByOid(oid);
+                for (OrderDetail o : orderDetail) {
+                    response.getWriter().print(
+                            "                                <tr class=\"rem\"  >\n"
+                            + "                                    <td id=\"cid\" class=\"invert\">" + o.getPname() + "</td>\n"
+                            + "                                    <td class=\"invert\">" + o.getQuantity() + "</td>\n"
+                            + "                                    <td class=\"invert\">" + o.getPrice() + "</td>                           \n"
+                            + "                                    <td class=\"invert\">" + o.getTotal() + "</td>\n"
+                            + "                                </tr>                           \n"
+                    );
+                }
+
             }
 
-            
         } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 
