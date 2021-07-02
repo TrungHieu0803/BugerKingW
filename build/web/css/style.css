@@ -10,6 +10,7 @@
     left:210px;
     width: 60%;
     display: none;
+    
 }
 body {
     color: #757575;
@@ -72,8 +73,28 @@ a:focus {
     text-align: center;
     padding: 120px 140px;
 }
-
-
+.container_profile{
+    display: inline;
+}
+.edit_profile{
+    padding: 20px;
+    height: auto;
+    width: 50%;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+.customer_profile{
+    margin-left: 10%;
+    padding: 20px;
+    height: auto;
+    width: 50%;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+.input_amount{
+    text-align: center;
+    width: 10%
+}
 
 .text {
     background-color: #d3dfe0;

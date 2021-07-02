@@ -34,12 +34,12 @@
                     </select>
 
                     <div class="form-group">
-                        <input class="form-control" type="text" id="fromDate"
+                        <input class="form-control" type="text" id="datepicker"
                                placeholder="Từ ngày">
                     </div>
 
                     <div class="form-group">
-                        <input class="form-control" type="text" id="toDate"
+                        <input class="form-control" type="text" id="datepicker"
                                placeholder="Đến ngày">
                     </div>
                     &nbsp;&nbsp; &nbsp;&nbsp;
@@ -74,7 +74,7 @@
                             <td class="invert">${o.status==1?"Shipped":"Processing"} </td>                           
                             <td class="invert">${o.total}</td>
                             <td class="invert">${o.payid==1?"COD":"Internet Banking"}</td>   
-                            <td><a href="#" style="text-decoration: none" onclick="orderDetail('${o.oid}', '${o.cname}', '${o.cphone}', '${o.cAddress}')">Detail</a></td>
+                            <td><a href="#" style="text-decoration: none" onclick="orderDetail('${o.oid}', '${o.cname}', '${o.cphone}', '${o.cAddress}','${o.total}')">Detail</a></td>
                         </tr>
                     </c:forEach>
                 </tbody>
@@ -95,23 +95,24 @@
                             <li >Customer name: <a id="customer-name"></a> </li>
                             <li >Phone: <strong id="customer-phone"></strong></li>
                             <li >Address: <strong id="customer-adrress"></strong></li>
+                            <li>Total Price:<strong id="totalPrice"></strong></li>
                         </ul>
                     </div>
-                    
-                        <table class="table table-hover donHangTable"
-                               style="text-align: center">
-                            <thead>
-                                <tr>
-                                    <th>Product</th>
-                                    <th>Amount</th>
-                                    <th>Price</th>
-                                    <th>Total</th>                           
-                                </tr>
-                            </thead>                           
-                            <tbody id="list-order-detail">                                                      
-                            </tbody>                           
-                        </table>
-                    
+
+                    <table class="table table-hover donHangTable"
+                           style="text-align: center">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Amount</th>
+                                <th>Price</th>
+                                <th>Total</th>                           
+                            </tr>
+                        </thead>                           
+                        <tbody id="list-order-detail">                                                      
+                        </tbody>                           
+                    </table>
+
 
                 </div>
             </div>
@@ -119,10 +120,12 @@
 
         <jsp:include page="template/footer.jsp"></jsp:include>
             <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.serializeJSON/2.9.0/jquery.serializejson.js"></script>
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
             <script type="text/javascript">
+                        $(function () {
+                            $("#datepicker").datepicker();
+                        });
                         $(function () {
 
                             if (${param.trangThai != null}) {
@@ -155,13 +158,14 @@
                                 return date;
                             }
                         });
-                        function orderDetail(oid, name, phone, adrress) {
+                        function orderDetail(oid, name, phone, adrress,totalPrice) {
                             document.getElementById("modal-order-detail").style.display = "block";
                             document.getElementById("list-order-detail").innerHTML = "";
                             console.log(name + phone + adrress);
                             document.getElementById("customer-name").innerHTML = name;
                             document.getElementById("customer-phone").innerHTML = phone;
                             document.getElementById("customer-adrress").innerHTML = adrress;
+                            document.getElementById("totalPrice").innerHTML = totalPrice;
                             jQuery.ajax({
                                 url: "/BugerKingW/OrderManager",
                                 type: "GET",
@@ -178,10 +182,10 @@
                         function hideList() {
                             document.getElementById("modal-order-detail").style.display = "none";
                         }
-                        function searchByDate(){
+                        function searchByDate() {
                             var from = document.getElementById("fromDate").value;
                             var to = document.getElementById("toDate").value;
-                            console.log(from+to);
+                            console.log(from + to);
                         }
 
         </script>

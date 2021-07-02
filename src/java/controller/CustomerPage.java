@@ -8,20 +8,19 @@ package controller;
 import entity.Customer;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.DAOCustomer;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Administrator
  */
-@WebServlet(name = "CustomerManager", urlPatterns = {"/CustomerManager"})
-public class CustomerManager extends HttpServlet {
+@WebServlet(name = "CustomerPage", urlPatterns = {"/CustomerPage"})
+public class CustomerPage extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,21 +31,24 @@ public class CustomerManager extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
- 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        DAOCustomer dc = new DAOCustomer();
-        ArrayList<Customer> listC = dc.getAllCustomer();
+        String service = request.getParameter("service");
+        HttpSession session = request.getSession();
         try {
-            String service = request.getParameter("service");
-            if (service.equals("cm")) {
-                request.setAttribute("listC", listC);
-                request.getRequestDispatcher("admin/customer-manager.jsp").forward(request, response);
+            if(service.equals("profile")){
+                Customer c = (Customer) session.getAttribute("account");
+                request.setAttribute("name", c.getCname());
+                request.setAttribute("phone", c.getCphone());
+                request.setAttribute("email", c.getcEmail());
+                request.setAttribute("address", c.getcAddress());
+                request.getRequestDispatcher("profile.jsp").forward(request, response);
             }
-
+            if(service.equals("history")){
+                
+            }
         } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 

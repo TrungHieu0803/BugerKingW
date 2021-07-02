@@ -212,17 +212,19 @@ function addToCart(pid) {
         }
 
     });
-
 }
-function reduceAmount(pid,price) {
+
+function reduceAmount(pid, price) {
     var totalPrice = parseFloat(document.getElementById("totoalPrice").innerHTML);
-    
-    var number = parseInt(document.getElementById(pid).innerHTML);
+    var number = parseInt(document.getElementById(pid).value);
     if (number !== 1) {
-        document.getElementById(pid).innerHTML = number - 1;
+        document.getElementById(pid).value = parseInt(number - 1);
         document.getElementById("totoalPrice").innerHTML = totalPrice - parseFloat(price);
     } else
         return;
+    if (document.getElementById("totoalPrice").innerHTML === '0') {
+        document.getElementById("buyButton").disabled = "true";
+    }
     var totalNumber = parseInt(document.getElementById('itemInCart').innerHTML);
     if (totalNumber !== 1) {
         document.getElementById('itemInCart').innerHTML = totalNumber - 1;
@@ -238,12 +240,13 @@ function reduceAmount(pid,price) {
 
     });
 }
-function increaseAmount(pid,price) {
+function increaseAmount(pid, price) {
+
     var totalPrice = parseFloat(document.getElementById("totoalPrice").innerHTML);
     var totalNumber = parseInt(document.getElementById('itemInCart').innerHTML) + 1;
     document.getElementById('itemInCart').innerHTML = totalNumber;
-    var number = parseInt(document.getElementById(pid).innerHTML) + 1;
-    document.getElementById(pid).innerHTML = number;
+    var number = parseInt(document.getElementById(pid).value) + 1;
+    document.getElementById(pid).value = parseInt(number);
     document.getElementById("totoalPrice").innerHTML = totalPrice + parseFloat(price);
     jQuery.ajax({
         url: "/BugerKingW/CartControl",
@@ -253,17 +256,20 @@ function increaseAmount(pid,price) {
         success: function () {
         }, error: function () {
         }
-
     });
 }
-function removeProduct(pid, btn,price) {
+
+function removeProduct(pid, btn, price) {
     var r = confirm("Do you want remove this product?");
     if (r === true) {
         var totalPrice = parseFloat(document.getElementById("totoalPrice").innerHTML);
-        var number = parseInt(document.getElementById(pid).innerHTML);
+        var number = parseInt(document.getElementById(pid).value);
         var totalNumber = parseInt(document.getElementById('itemInCart').innerHTML);
-        document.getElementById('itemInCart').innerHTML=totalNumber-number;
-        document.getElementById("totoalPrice").innerHTML= totalPrice - parseFloat(price)*number;
+        document.getElementById('itemInCart').innerHTML = totalNumber - number;
+        document.getElementById("totoalPrice").innerHTML = totalPrice - parseFloat(price) * number;
+        if (document.getElementById("totoalPrice").innerHTML === '0') {
+            document.getElementById("buyButton").disabled = "true";
+        }
         btn.parentElement.parentElement.parentElement.style.display = "none";
         jQuery.ajax({
             url: "/BugerKingW/CartControl",
@@ -278,6 +284,32 @@ function removeProduct(pid, btn,price) {
         });
     }
 }
+function changeAmount(pid, price) {
+    var currentAmount = document.getElementById(pid).value;
+    if (currentAmount < 1 || currentAmount === null) {
+        currentAmount = 1;
+        document.getElementById(pid).value = 1;
+    }
+    jQuery.ajax({
+        url: "/BugerKingW/CartControl",
+        type: "POST",
+        data: {pid: pid,
+            service: "changeAmount",
+            currentAmount: currentAmount},
+        success: function (result) {
+            var amount = parseInt(result);
+            var totalPrice = parseFloat(document.getElementById("totoalPrice").innerHTML);
+            var totalNumber = parseInt(document.getElementById('itemInCart').innerHTML) + parseInt(currentAmount) - parseInt(amount);
+            document.getElementById('itemInCart').innerHTML = totalNumber;
+            document.getElementById("totoalPrice").innerHTML = totalPrice + (parseInt(currentAmount) - parseInt(amount)) * parseFloat(price);
+        }, error: function () {
+
+        }
+    });
+
+
+}
+
 
 
 

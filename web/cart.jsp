@@ -87,8 +87,8 @@
                                                     </th>
                                                     <td class="align-middle"><strong>${o.price}</strong></td>
                                                     <td class="align-middle">
-                                                        <a ><button  onclick="reduceAmount('${o.pid}',${o.price})" class="btnSub">-</button></a> <strong id="${o.pid}">${o.amount}</strong>
-                                                        <a ><button onclick="increaseAmount('${o.pid}',${o.price})" class="btnAdd">+</button></a>
+                                                        <a ><button   onclick="reduceAmount('${o.pid}',${o.price})" class="btnSub">-</button></a> <input class="input_amount" onchange="changeAmount('${o.pid}',${o.price})" type="number" id="${o.pid}" value="${o.amount}"> 
+                                                        <a ><button  onclick="increaseAmount('${o.pid}',${o.price})" class="btnAdd">+</button></a>
                                                     </td>
                                                     <td class="align-middle"><a  class="text-dark">
                                                             <button type="button" onclick="removeProduct('${o.pid}', this,${o.price})" class="btn btn-danger">Remove</button>
@@ -142,9 +142,9 @@
                                     <div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Payment</div>
                                     <div class="p-4">
                                         <ul class="list-unstyled mb-4">
-                                            <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Total</strong><strong id="totoalPrice">${sessionScope.order.total}</strong></li>
+                                            <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Total</strong><strong  id="totoalPrice">${sessionScope.order.total}</strong></li>
                                             </li>
-                                        </ul> <button type="submit" class="btn btn-dark rounded-pill py-2 btn-block">Buy</button>  
+                                        </ul> <button <c:if test="${sessionScope.order.total==0}">disabled="true"</c:if> id="buyButton"  type="submit" class="btn btn-dark rounded-pill py-2 btn-block">Buy</button>   
                                     </div>
                                 </div>
                             </div>

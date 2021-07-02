@@ -49,18 +49,22 @@ public class OrderManager extends HttpServlet {
                 request.getRequestDispatcher("admin/order-manager.jsp").forward(request, response);
             } else if (service.equals("orderDetail")) {
                 int oid = Integer.parseInt(request.getParameter("oid"));
+                
                 ArrayList<OrderDetail> orderDetail = odetail.getOdByOid(oid);
+                
                 for (OrderDetail o : orderDetail) {
+                    
                     response.getWriter().print(
                             "                                <tr class=\"rem\"  >\n"
                             + "                                    <td id=\"cid\" class=\"invert\">" + o.getPname() + "</td>\n"
                             + "                                    <td class=\"invert\">" + o.getQuantity() + "</td>\n"
                             + "                                    <td class=\"invert\">" + o.getPrice() + "</td>                           \n"
                             + "                                    <td class=\"invert\">" + o.getTotal() + "</td>\n"
+                         
                             + "                                </tr>                           \n"
                     );
                 }
-
+                
             }
 
         } catch (Exception e) {

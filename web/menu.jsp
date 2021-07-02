@@ -114,7 +114,7 @@
                                     <div class="col-lg-7 col-md-12">
                                     <c:forEach items="${listPB}" var="p">
                                         <div class="menu-item">
-                                            <a class="cart-item" onclick="addToCart('${p.pid}')" style="display: ${sessionScope.account==null?"none":"block"}">
+                                            <a  class="cart-item" onclick="addToCart('${p.pid}')" style="display: ${sessionScope.account==null?"none":"block"}">
                                                <i class="fa fa-shopping-cart" style="font-size:25px" ></i> 
                                             </a>
                                             

@@ -29,7 +29,8 @@
                 <div class="nav-item dropdown"  style="display: ${sessionScope.account==null?"none":"block"}">
                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">${sessionScope.account.username}</a>
                     <div class="dropdown-menu">
-                        <a href="blog.html" class="dropdown-item">Profile</a>
+                        <a href="/BugerKingW/CustomerPage?service=profile" class="dropdown-item">Profile</a>
+                        <a href="/BugerKingW/CustomerPage?service=history" class="dropdown-item">History</a>
                         <a href="/BugerKingW/logout?service=forCustomer" class="dropdown-item">Logout</a>
                     </div>
                 </div>
