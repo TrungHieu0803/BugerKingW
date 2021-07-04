@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import model.DAOCustomer;
 
 /**
  *
@@ -36,17 +37,31 @@ public class CustomerPage extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String service = request.getParameter("service");
         HttpSession session = request.getSession();
+        DAOCustomer dc = new DAOCustomer();
         try {
-            if(service.equals("profile")){
+            if (service.equals("update")) {
                 Customer c = (Customer) session.getAttribute("account");
-                request.setAttribute("name", c.getCname());
-                request.setAttribute("phone", c.getCphone());
-                request.setAttribute("email", c.getcEmail());
-                request.setAttribute("address", c.getcAddress());
-                request.getRequestDispatcher("profile.jsp").forward(request, response);
+                c.setCname(request.getParameter("name"));
+                c.setCphone(request.getParameter("phone"));
+                c.setcEmail(request.getParameter("email"));
+                c.setcAddress(request.getParameter("address"));
+                session.setAttribute("account", c);
+                dc.updateInformation(c);
+                response.sendRedirect("profile.jsp");
             }
-            if(service.equals("history")){
-                
+            if (service.equals("changePassWord")) {
+                Customer c = (Customer) session.getAttribute("account");
+                String oldPw = request.getParameter("oldPassword");
+                String newPw = request.getParameter("newPassword");
+                if (dc.login(c.getUsername(), oldPw)) {
+                    dc.updatePassWord(c.getCid(),newPw);
+                    request.setAttribute("alert", "block");
+                    request.getRequestDispatcher("profile.jsp").forward(request, response);
+                } else {
+                    request.setAttribute("changePwForm", "block");
+                    request.setAttribute("messForChangePw", "User name or password is incorrect!!");
+                    request.getRequestDispatcher("profile.jsp").forward(request, response);
+                }
             }
         } catch (Exception e) {
         }

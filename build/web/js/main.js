@@ -146,6 +146,22 @@ function loginFormDisplay() {
 function loginFormHide() {
     document.getElementById("modal-login").style.display = "none";
 }
+function updateFormDisplay() {
+    if (document.getElementById("modal_update_information").style.display === "none") {
+        document.getElementById("modal_update_information").style.display = "block";
+    }
+}
+function updateFormHide() {
+    document.getElementById("modal_update_information").style.display = "none";
+}
+function changePwFormDisplay() {
+    if (document.getElementById("modal_change_password").style.display === "none") {
+        document.getElementById("modal_change_password").style.display = "block";
+    }
+}
+function changePwFormHide() {
+    document.getElementById("modal_change_password").style.display = "none";
+}
 function displayPicture(pic) {
     document.getElementById('changePicture').src = pic.src;
 }

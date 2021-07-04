@@ -59,7 +59,7 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("        <link href=\"https://fonts.googleapis.com/css?family=Open+Sans:300,400|Nunito:600,700\" rel=\"stylesheet\"> \n");
       out.write("\n");
       out.write("        <!-- CSS Libraries -->\n");
-      out.write("        \n");
+      out.write("\n");
       out.write("        <link href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css\" rel=\"stylesheet\">\n");
       out.write("        <link href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css\" rel=\"stylesheet\">\n");
       out.write("        <link href=\"lib/animate/animate.min.css\" rel=\"stylesheet\">\n");
@@ -728,7 +728,7 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("\n");
       out.write("\n");
       out.write("            <!-- Footer Start -->\n");
-      out.write("            ");
+      out.write("        ");
       org.apache.jasper.runtime.JspRuntimeLibrary.include(request, response, "components/footer.jsp", out, false);
       out.write("\n");
       out.write("            <!-- Footer End -->\n");

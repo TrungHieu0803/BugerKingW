@@ -134,9 +134,36 @@ public class DAOCustomer {
         }
         return c;
     }
+    public void updateInformation(Customer c){
+        String query = "update Customer set cname = ? ,cphone = ?, cEmail = ?, cAddress = ? where cid = ?";
+         try {
+            conn = new DBConnect().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, c.getCname());
+            ps.setString(2, c.getCphone());
+            ps.setString(3, c.getcEmail());
+            ps.setString(4, c.getcAddress());
+            ps.setInt(5, c.getCid());
+            ps.executeUpdate();
+            
+        } catch (Exception e) {
+        }
+    }
+    public void updatePassWord(int cid,String passWord){
+        String query = "update Customer set password = ? where cid = ?";
+         try {
+            conn = new DBConnect().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, passWord);  
+            ps.setInt(2, cid);
+            ps.executeUpdate();          
+        } catch (Exception e) {
+        }
+    }
+    
     public static void main(String[] args) {
         DAOCustomer c = new DAOCustomer();
-        System.out.println(c.getCustomerByUN("xuhao9xx"));
+        
     }
     
 }
