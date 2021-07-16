@@ -5,12 +5,12 @@
  */
 package controller;
 
-
 import entity.Customer;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,6 +23,13 @@ import model.DAOCustomer;
  */
 @WebServlet(name = "Logout", urlPatterns = {"/logout"})
 public class Logout extends HttpServlet {
+
+//    public static void removeCookie(HttpServletResponse response,
+//            String name) {
+//        Cookie cookie = new Cookie(name, "");
+//        cookie.setMaxAge(0);
+//        response.addCookie(cookie);
+//    }
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,10 +51,14 @@ public class Logout extends HttpServlet {
             if (service.equals("forCustomer")) {
                 Customer account = (Customer) session.getAttribute("account");
                 dc.changeStatusToOff(account.getUsername());
+//                Cookie[] cookies = request.getCookies();
+//                for (int i = 0; i < cookies.length; i++) {
+//                    Cookie cookie = cookies[i];//from w ww  .j  av  a 2 s  .c om
+//                    removeCookie(response, cookie.getName());
+//                }
                 session.removeAttribute("account");
                 response.sendRedirect("index.jsp");
-            }
-            else if(service.equals("forAdmin")){
+            } else if (service.equals("forAdmin")) {
                 session.removeAttribute("accountAdmin");
                 response.sendRedirect("index.jsp");
             }

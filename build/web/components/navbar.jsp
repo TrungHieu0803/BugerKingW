@@ -20,8 +20,8 @@
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
                     <div class="dropdown-menu">
-                        <a href="blog.html" class="dropdown-item">Blog Grid</a>
-                        <a href="single.html" class="dropdown-item">Blog Detail</a>
+                        <a href="blog.jsp" class="dropdown-item">Blog Grid</a>
+                        <a href="team.jsp" class="dropdown-item">Team</a>
                     </div>
                 </div>
                 <a href="#" onclick="registerDisplay()" class="nav-item nav-link" style="display: ${sessionScope.account==null?"block":"none"}">Register</a>

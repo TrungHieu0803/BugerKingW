@@ -24,7 +24,7 @@ import model.DAOCustomer;
  */
 @WebServlet(name = "Login", urlPatterns = {"/login"})
 public class Login extends HttpServlet {
-
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -39,6 +39,7 @@ public class Login extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         DAOCustomer cr = new DAOCustomer();
         DAOAdmin da = new DAOAdmin();
+        
         try {
             String username = request.getParameter("userNameForLogin");
             String password = request.getParameter("passwordForLogin");
